@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>vega-chart</title>
+    
+    <meta name="vega-chart" content="Experiment with Vega and Web Components">
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vega@3"></script>    
+    
+    <!-- Alternate
+    <script src="https://vega.github.io/vega/vega.min.js"></script> 
+    -->
+        
+    <script src="VegaChart.js"></script>
+  </head>
+  <body>   
+    <p>Code <a href="https://glitch.com/edit/#!/vega-chart">here</a>. Chart examples taken from <a href="https://vega.github.io/vega/examples/">here</a>.</p>
+    <vega-chart id="c1" spec="spec1.json"></vega-chart>
+    <vega-chart id="c2" spec="spec2.json" renderer="canvas"></vega-chart>
+    <vega-chart id="c3" spec="spec3.json" renderer="svg"></vega-chart>
+    <vega-chart id="c4" spec="spec4.json" renderer="svg"></vega-chart>
+    
+    <style>
+      vega-chart {
+        padding: 20px;
+      }
+    </style> 
+    
+    
+    <script>     
+      const c4El = document.querySelector('#c4');      
+      
+      fetch('spec4.json')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(spec) {
+          setInterval(() => {
+            updateChart(spec);        
+          }, 1000);          
+      });
+      
+      function updateChart(spec) {
+        spec.data[0].values.forEach((val, i) => {
+            spec.data[0].values[i] = Math.ceil(Math.random() * 100);
+          });
+        c4El.spec = spec;
+      }
+    </script>
+  </body>
+</html>
